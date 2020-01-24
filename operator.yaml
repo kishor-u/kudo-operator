@@ -1,0 +1,27 @@
+
+# Operator to deploy nginx container as Deployment with replicas passed as parameter
+apiVersion: kudo.dev/v1beta1
+name: "my-kudo-operator"
+operatorVersion: "1.0.1"
+appVersion: "1.7.7"
+kubernetesVersion: 1.17.0
+maintainers:
+  - name: Kishor U  
+    email: kishoru8@gmail.com
+url: 
+tasks:
+  - name: nginx-deploy-task
+    kind: Apply
+    spec:
+      resources:
+        - deployment.yaml
+plans:
+  deploy:
+    strategy: serial
+    phases:
+      - name: phase1-deploy
+        strategy: parallel
+        steps:
+          - name: deploy-nginx-step
+            tasks:
+              - nginx-deploy-task
