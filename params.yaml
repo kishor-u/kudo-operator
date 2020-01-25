@@ -33,7 +33,7 @@ parameters:
     description: Memory (limit) for the container nodes pods. spec.containers[].resources.limits.memory.
     default: "350Mi"
 
-# Statefulset nginx
+# StatefulSet nginx
   - name: STATEFULSET_REPLICAS
     description: Number of replicas that should be run as part of the deployment
     default: 2

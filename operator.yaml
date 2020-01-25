@@ -1,7 +1,7 @@
 # Operator to deploy nginx container as Deployment/Statefulset with replicas/resources passed as parameter.
 apiVersion: kudo.dev/v1beta1
-name: "limit-kudo-operator"
-operatorVersion: "1.0.12"
+name: "my-kudo-operator"
+operatorVersion: "1.0.0"
 appVersion: "1.7.6"
 kubernetesVersion: "1.17.0"
 maintainers:
