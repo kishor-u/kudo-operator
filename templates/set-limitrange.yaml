@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: {{ .Namespace }}-ns-limitrange
+  namespace: {{ .Namespace }}
+spec:
+  limits:
+  - default:
+      memory: {{ .Params.MEM_LIMIT }}
+      cpu: {{ .Params.CPUS_LIMIT }}
+    defaultRequest:
+      memory: {{ .Params.MEMORY }}
+      cpu: {{ .Params.CPUS }}
+    type: Container
