@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Name }}-stateful-nginx
+spec:
+  serviceName: {{ .Name }}-stateful-service-nginx
+  replicas: {{ .Params.STATEFULSET_REPLICAS }}
+  selector:
+    matchLabels:
+      app: {{ .Name }}-stateful-nginx
+  template:
+    metadata:
+      labels:
+        app: {{ .Name }}-stateful-nginx
+    spec:
+      containers:
+      - name: {{ .Name }}-stateful-nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+          name: nginx-stateful
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 100Mi

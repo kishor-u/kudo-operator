@@ -1,0 +1,14 @@
+# Nginx statefulset headless service with ClusterIP disabled.
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Name }}-stateful-service-nginx
+  labels:
+    app: {{ .Name }}-stateful-nginx
+spec:
+  ports:
+  - port: 80
+    name: nginx-stateful
+  clusterIP: None
+  selector:
+    app: {{ .Name }}-stateful-nginx
