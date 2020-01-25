@@ -1,27 +1,55 @@
-
-# Operator to deploy nginx container as Deployment with replicas passed as parameter
+# Operator to deploy nginx container as Deployment/Statefulset with replicas/resources passed as parameter.
 apiVersion: kudo.dev/v1beta1
-name: "my-kudo-operator"
-operatorVersion: "1.0.1"
-appVersion: "1.7.7"
-kubernetesVersion: 1.17.0
+name: "limit-kudo-operator"
+operatorVersion: "1.0.12"
+appVersion: "1.7.6"
+kubernetesVersion: "1.17.0"
 maintainers:
   - name: Kishor U  
     email: kishoru8@gmail.com
-url: 
+url: https://github.com/kishorgec/kudo-operator.git
 tasks:
+  - name: set-limitrange-task
+    kind: Apply
+    spec:
+      resources:
+        - set-limitrange.yaml
+
   - name: nginx-deploy-task
     kind: Apply
     spec:
       resources:
+        - deployment-service.yaml
         - deployment.yaml
+
+  - name: nginx-statefulset-task
+    kind: Apply
+    spec:
+      resources:
+        - statefulset-service.yaml
+        - statefulset.yaml
+
 plans:
   deploy:
     strategy: serial
     phases:
-      - name: phase1-deploy
+      - name: phase-set-limitrange
+        strategy: parallel
+        steps:
+          - name: set-limit-quota-step
+            tasks:
+              - set-limitrange-task
+
+      - name: phase-nginx-deploy
         strategy: parallel
         steps:
           - name: deploy-nginx-step
             tasks:
               - nginx-deploy-task
+
+      - name: phase-nginx-stateful
+        strategy: parallel
+        steps:
+          - name: stateful-nginx-step
+            tasks:
+              - nginx-statefulset-task

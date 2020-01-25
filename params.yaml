@@ -1,5 +1,39 @@
 apiVersion: kudo.dev/v1beta1
 parameters:
-  - name: replicas
+# Global parameters
+  - name: MEMORY
+    description: Amount of memory requested to provide to container pods.
+    default: "200Mi"
+  - name: CPUS
+    description: Amount of cpu to requested provide to container pods.
+    default: "250m"
+  - name: CPUS_LIMIT
+    description: CPUs (limit) for the container nodes pods. spec.containers[].resources.limits.cpu.
+    default: "400m"
+  - name: MEM_LIMIT
+    description: Memory (limit) for the container nodes pods. spec.containers[].resources.limits.memory.
+    default: "450Mi"
+
+# Container specific
+
+# Deployment nginx
+  - name: DEPLOYMENT_REPLICAS
+    description: Number of replicas that should be run as part of the nginx deployment.
+    default: 3
+  - name: NGX_MEMORY
+    description: Amount of memory requested to provide to nginx container pods.
+    default: "180Mi"
+  - name: NGX_CPUS
+    description: Amount of cpu to requested provide to nginx container pods.
+    default: "220m"
+  - name: NGX_CPUS_LIMIT
+    description: CPUs (limit) for the container nodes pods. spec.containers[].resources.limits.cpu.
+    default: "300m"
+  - name: NGX_MEM_LIMIT
+    description: Memory (limit) for the container nodes pods. spec.containers[].resources.limits.memory.
+    default: "350Mi"
+
+# Statefulset nginx
+  - name: STATEFULSET_REPLICAS
     description: Number of replicas that should be run as part of the deployment
-    default: 4
+    default: 2
