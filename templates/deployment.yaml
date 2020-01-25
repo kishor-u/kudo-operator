@@ -1,20 +1,27 @@
-# Deployment template for nginx application
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: {{ .Name }}-nginx
 spec:
   selector:
     matchLabels:
-      app: nginx
-  replicas: {{ .Params.replicas }}
+      run: {{ .Name }}-nginx
+  replicas: {{ .Params.DEPLOYMENT_REPLICAS }}
   template:
     metadata:
       labels:
-        app: nginx
+        run: {{ .Name }}-nginx
     spec:
       containers:
-        - name: nginx
-          image: nginx:{{ .AppVersion }}
-          ports:
-            - containerPort: 80
+      - name: {{ .Name }}-nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: {{ .Params.NGX_MEMORY }}
+            cpu: {{ .Params.NGX_CPUS }}
+          limits:
+            memory: {{ .Params.NGX_MEM_LIMIT }}
+            cpu: {{ .Params.NGX_CPUS_LIMIT }}

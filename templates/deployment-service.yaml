@@ -1,0 +1,18 @@
+# Nginx deployment service with ClusterIP enabled.
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Name }}-service-nginx
+  namespace: {{ .Namespace }}
+  labels:
+    run: {{ .Name }}-nginx
+spec: 
+  type: NodePort
+  
+  ports:
+  - port: 8080
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    run: {{ .Name }}-nginx
